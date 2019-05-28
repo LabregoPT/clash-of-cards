@@ -243,4 +243,23 @@ public class LinkedList{
 		}
 		return ret;
 	}
+	
+	public void delete(Card c) {
+		Element nc = new Element(c);
+		Element curr = first;
+		while(nc != curr) {
+			nc = nc.getNext();
+		}
+		if(nc == first) {
+			first = nc.getNext();
+			nc.getNext().setPrev(null);
+		}else if(nc == getLast()) {
+			nc.getPrev().setNext(null);
+		}else {
+			Element prev = nc.getPrev();
+			Element next = nc.getNext();
+			prev.setNext(next);
+			next.setPrev(prev);
+		}
+	}
 }

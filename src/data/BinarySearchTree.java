@@ -264,7 +264,27 @@ public class BinarySearchTree {
 	}
 	
 	private void delete(Node todelete) {
-		
+		if(todelete != null) {
+			if(todelete.getLeft() == null && todelete.getRight() == null) {	
+				if(todelete.getP().getLeft() == todelete) {
+					todelete.getP().setLeft(null);
+				}else {
+					todelete.getP().setRight(null);
+				}
+			}else if (todelete.getLeft() != null && todelete.getRight() == null) {
+				if(todelete.getP().getLeft() == todelete) {
+					todelete.getP().setLeft(todelete.getLeft());
+				}else {
+					todelete.getP().setRight(todelete.getLeft());
+				}
+			}else if(todelete.getLeft() == null && todelete.getRight() != null) {
+				if(todelete.getP().getLeft() == todelete) {
+					todelete.getP().setLeft(todelete.getRight());
+				}else {
+					todelete.getP().setRight(todelete.getRight());
+				}
+			}
+		}
 	}
 	
 }
