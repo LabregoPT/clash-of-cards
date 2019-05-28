@@ -28,6 +28,7 @@ public class Card{
 	public Card(String n, String im, Attribute[] a) {
 		name = n;
 		image = im;
+		attributes = a;
 	}
 	
 	/**

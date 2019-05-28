@@ -84,20 +84,20 @@ public class Deck implements Serializable{
 				//#Name-Attribute 1/Power-Attribute 2/Power-Attribute 3/Power
 				String name = parts[0];
 				Attribute[] atts = new Attribute[3];
-				if(parts.length == 2) {
+				if(parts.length >= 2) {
 					String att1 = parts[1];
 					String[] pts = att1.split("/");
-					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1]));
+					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1].trim()));
 					atts[0] = a;
-				}if(parts.length == 3) {
+				}if(parts.length >= 3) {
 					String att2 = parts[2];
 					String[] pts = att2.split("/");
-					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1]));
+					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1].trim()));
 					atts[1] = a;
-				}if(parts.length == 4) {
+				}if(parts.length >= 4) {
 					String att3 = parts[3];
 					String[] pts = att3.split("/");
-					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1]));
+					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1].trim()));
 					atts[2] = a;
 				}
 				Card c = new Card(name, "src/images/"+name+".jpg", atts);
@@ -119,7 +119,11 @@ public class Deck implements Serializable{
 	
 	public Card getRandomCard() {
 		if(type == TYPE_FULL) {
-			return full.getRandom();
+			Card rnd = full.getRandom();
+			while(rnd == null) {
+				rnd = full.getRandom();
+			}
+			return rnd;
 		}else {
 			Random rnd = new Random();
 			int r = rnd.nextInt(partial.size());
@@ -139,5 +143,13 @@ public class Deck implements Serializable{
 		Random rnd = new Random();
 		String rt = atts.get(rnd.nextInt(atts.size())).getName();
 		return rt;
+	}
+	
+	public List<Attribute> getAttributes(){
+		return atts;
+	}
+	
+	public LinkedList getPartial() {
+		return partial;
 	}
 }

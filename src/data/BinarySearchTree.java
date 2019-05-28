@@ -216,11 +216,11 @@ public class BinarySearchTree {
 			Random rnd = new Random();
 			int pointer = rnd.nextInt(3);
 			if(pointer == 0) {
-				return getRandom(current.getP());
+				return current.getP();
 			}else if(pointer == 1) {
-				return getRandom(current.getLeft());
+				return current.getLeft();
 			}else {
-				return getRandom(current.getRight());
+				return current.getRight();
 			}
 		}
 	}

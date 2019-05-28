@@ -1,21 +1,36 @@
 package model;
 import java.io.*;
-import java.util.*;
 
 public class Game {
 	
-	private List<Player> players;
+	private Player player;
 
 	private Deck collection;
 	
+	private int wins;
+	
+	private int losses;
+	
+	private int draws;
+	
 	public Game() {
-		players = new ArrayList<Player>();
+		player = null;
 		collection = new Deck(Deck.TYPE_FULL);
+		wins = 0;
+		losses = 0;
+		draws = 0;
 	}
 	
-	public void addPlayer(String nn) {
+	public void generateCards(String attsPath, String cardsPath) throws IOException{
+		collection.loadDeck(cardsPath, attsPath);
+	}
+	
+	public void setPlayer(String nn) {
 		Player p = new Player(nn);
-		players.add(p);
+		player = p;
+		Card given = collection.getRandomCard();
+		player.getDeck().addCard(given);
+		collection.deleteCard(given);
 	}
 	
 	public void battle(Player p, int i) {
@@ -26,18 +41,46 @@ public class Game {
 		if(result < 1) {
 			collection.addCard(player);
 			p.getDeck().deleteCard(player);
+			wins ++;
 		}else if(result > 1) {
 			p.getDeck().addCard(system);
 			collection.deleteCard(system);
+			losses++;
+		}else {
+			draws++;
 		}
 	}
 	
 	public void saveGame() throws IOException {
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("data/players.dat")));
-		oos.writeObject(players);
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("data/savegame.dat")));
+		oos.writeObject(this);
 		oos.close();
-		ObjectOutputStream oos1 = new ObjectOutputStream(new FileOutputStream(new File("data/deck.dat")));
-		oos1.writeObject(collection);
-		oos1.close();
+	}
+	
+	public Game loadGame() throws IOException, ClassNotFoundException{
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("data/savegame.dat")));
+		Game r = (Game)ois.readObject();
+		ois.close();
+		return r;
+	}
+	
+	public Deck getDeck() {
+		return collection;
+	}
+	
+	public int getWins() {
+		return wins;
+	}
+	
+	public int getLosses() {
+		return losses;
+	}
+	
+	public int getDraws() {
+		return draws;
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 }
