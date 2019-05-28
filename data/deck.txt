@@ -1,17 +1,6 @@
 #This is a sample deck. More may be created by following this template.
 #All the lines starting with a "#" will be ignored while creating the cards.
 #
-#
-#First, you got to specify the attributes of the cards. They are 5
-#The format is the following:
-#ATTRIBUTES: Name -  Advantage, Advantage, ... / Disadvantage, Disadvantage, ...
-ATTRIBUTES: Fire - Wind / Water
-ATTRIBUTES: Wind - Lightning / Fire
-ATTRIBUTES: Lightning - Earth / Wind
-ATTRIBUTES: Earth - Water / Lightning
-ATTRIBUTES: Water - Fire / Earth
-#
-#
 #Then you add the cards, their names, attributes and power.
 #CARDS: Name - Attribute 1 / Power - Attribute 2 / Power - Attribute 3 / Power
 CARDS: Rei - Wind / 150 - Fire / 100
