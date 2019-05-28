@@ -258,4 +258,13 @@ public class BinarySearchTree {
 	}
 	
 	
+	public void delete(Card c) {
+		Node todelete = new Node(c);
+		delete(search(root, todelete));
+	}
+	
+	private void delete(Node todelete) {
+		
+	}
+	
 }
