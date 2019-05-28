@@ -132,4 +132,9 @@ public class Deck {
 		}
 	}
 	
+	public String getRandomAttribute() {
+		Random rnd = new Random();
+		String rt = atts.get(rnd.nextInt(atts.size())).getName();
+		return rt;
+	}
 }

@@ -1,26 +1,34 @@
 package model;
 
+import java.util.*;
+
 public class Game {
-
-	private Attribute[] full;
 	
-	public void Game() {
-		
+	private List<Player> players;
+
+	private Deck collection;
+	
+	public Game() {
+		players = new ArrayList<Player>();
+		collection = new Deck(Deck.TYPE_FULL);
 	}
 	
-	private void addPlayer(String nn) {
-		// TODO Auto-generated method stub
-
+	public void addPlayer(String nn) {
+		Player p = new Player(nn);
+		players.add(p);
 	}
 	
-	private void battle(Player p) {
-		// TODO Auto-generated method stub
-
+	public void battle(Player p, int i) {
+		Card player = p.selectCard(i);
+		Card system = collection.getRandomCard();
+		String toFight = collection.getRandomAttribute();
+		int result = player.fight(system, toFight);
+		if(result < 1) {
+			collection.addCard(player);
+			p.getDeck().deleteCard(player);
+		}else if(result > 1) {
+			p.getDeck().addCard(system);
+			collection.deleteCard(system);
+		}
 	}
-	
-	private void selectCard() {
-		// TODO Auto-generated method stub
-
-	}
-
 }
