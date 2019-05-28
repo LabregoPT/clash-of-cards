@@ -12,10 +12,17 @@ public class Card implements Comparable<Card>{
 	 */
 	private String name;
 	
+	/**
+	 * The location of the image of this card.
+	 */
+	public String image;
 	
+	/**The attributes of this card. From 1 to 3 per card.*/
+	private Attribute[] attributes;
 	
-	public Card(String n) {
+	public Card(String n, String im, Attribute[] a) {
 		name = n;
+		image = im;
 	}
 	
 	
