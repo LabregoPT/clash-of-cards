@@ -30,7 +30,7 @@ public class Attribute implements Comparable<Attribute> {
 		name = n;
 		power = p;
 	}
-	
+
 	/**
 	 * Sets the list of advantages to the one in the parameter.
 	 * @param a the list of advantages

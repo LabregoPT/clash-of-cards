@@ -48,7 +48,28 @@ public class Deck {
 	}
 	
 	public void loadDeck(String filePath) throws IOException{
-		//TO DO
+		BufferedReader bf = new BufferedReader(new FileReader(new File(filePath)));
+		String line = bf.readLine();
+		ArrayList<Attribute> attributes = new ArrayList<Attribute>();
+		ArrayList<Card> cards = new ArrayList<Card>();
+		while(line != null) {
+			if(!line.startsWith("#")) {
+				if(line.startsWith("ATTRIBUTES:")) {
+					String[] parts = line.split("-");
+					//ATTRIBUTES: Fire - Wind / Water
+					String name = parts[0].split(" ")[1];
+					String[] weaknesses = parts[1].trim().split("/")[1].split(",");
+					String[] advantages = parts[1].trim().split("/")[0].split(",");
+					Attribute a1 = new Attribute(name, -1);
+					attributes.add(a1);
+				}
+				if(line.startsWith("CARDS:")) {
+					
+				}
+			}
+			line = bf.readLine();
+		}
+		bf.close();
 	}
 	
 	public void addCard(Card c) {
@@ -77,7 +98,4 @@ public class Deck {
 		}
 	}
 	
-	public void shuffle() {
-		
-	}
 }
