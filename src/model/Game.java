@@ -1,5 +1,5 @@
 package model;
-
+import java.io.*;
 import java.util.*;
 
 public class Game {
@@ -30,5 +30,14 @@ public class Game {
 			p.getDeck().addCard(system);
 			collection.deleteCard(system);
 		}
+	}
+	
+	public void saveGame() throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("data/players.dat")));
+		oos.writeObject(players);
+		oos.close();
+		ObjectOutputStream oos1 = new ObjectOutputStream(new FileOutputStream(new File("data/deck.dat")));
+		oos1.writeObject(collection);
+		oos1.close();
 	}
 }

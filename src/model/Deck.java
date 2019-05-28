@@ -9,7 +9,10 @@ import data.LinkedList;
  * Class to represent each of the decks in the game
  * @author Jhon Edward Mora / Juan Andres Orozco - Universidad ICESI
  */
-public class Deck {
+public class Deck implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
 	//Constant fields
 	/**To indicate that the deck is of the type full deck.*/
 	public final static int TYPE_FULL = 0;
