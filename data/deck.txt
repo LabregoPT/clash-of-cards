@@ -1,10 +1,13 @@
 #This is a sample deck. More may be created by following this template.
 #All the lines starting with a "#" will be ignored while creating the cards.
 #
-#Then you add the cards, their names, attributes and power.
-#CARDS: Name - Attribute 1 / Power - Attribute 2 / Power - Attribute 3 / Power
-CARDS: Rei - Wind / 150 - Fire / 100
-CARDS: Mei - Water / 150 - Lightning / 100
-CARDS: Sai - Earth / 100 - Wind / 200
-CARDS: Fai - Fire / 200 - Earth / 50
-CARDS: Wu - Lightning / 100 - Water / 100
+#Here you add the cards, their names, attributes and power.
+#Name - Attribute 1 / Power - Attribute 2 / Power - Attribute 3 / Power
+Rei - Wind / 150 - Fire / 100
+Mei - Water / 150 - Lightning / 100
+Sai - Earth / 100 - Wind / 200
+Fai - Fire / 200 - Earth / 50
+Wu - Lightning / 100 - Water / 100
+#Once youre done here, remember to always have an Image in jpg format with a name as follows:
+#"[Name of your card]".jpg
+#This for each card you created, located on src/images.

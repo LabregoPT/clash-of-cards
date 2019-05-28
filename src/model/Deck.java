@@ -27,6 +27,9 @@ public class Deck {
 	
 	/**Data structure for when the deck is of type partial deck.*/
 	private LinkedList partial;
+	
+	/**The total of attributes in this deck.*/
+	private List<Attribute> atts;
 	//Methods
 	/**
 	 * Constructor method. Initialises a new instance of this class. 
@@ -42,34 +45,65 @@ public class Deck {
 				}
 				
 			});
+			atts = new ArrayList<Attribute>();
 		}else {
 			partial = new LinkedList();
 		}
 	}
 	
-	public void loadDeck(String filePath) throws IOException{
-		BufferedReader bf = new BufferedReader(new FileReader(new File(filePath)));
-		String line = bf.readLine();
-		ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-		ArrayList<Card> cards = new ArrayList<Card>();
-		while(line != null) {
-			if(!line.startsWith("#")) {
-				if(line.startsWith("ATTRIBUTES:")) {
-					String[] parts = line.split("-");
-					//ATTRIBUTES: Fire - Wind / Water
-					String name = parts[0].split(" ")[1];
-					String[] weaknesses = parts[1].trim().split("/")[1].split(",");
-					String[] advantages = parts[1].trim().split("/")[0].split(",");
-					Attribute a1 = new Attribute(name, -1);
-					attributes.add(a1);
-				}
-				if(line.startsWith("CARDS:")) {
-					
-				}
+	public void loadDeck(String cardsPath, String attPath) throws IOException, NumberFormatException, IndexOutOfBoundsException{
+		BufferedReader attReader = new BufferedReader(new FileReader(new File(attPath)));
+		BufferedReader cardReader = new BufferedReader(new FileReader(new File(cardsPath)));
+		//Create attributes
+		String attLine = attReader.readLine();
+		while(attLine != null) {
+			//#NAME / Advantage / Disadvantage
+			if(!attLine.startsWith("#")) {
+				String[] parts = attLine.trim().split("/");
+				String name = parts[0];
+				String adv = parts[1];
+				String dadv = parts[2];
+				Attribute att = new Attribute(name);
+				Attribute aadv = new Attribute(adv);
+				Attribute adadv = new Attribute(dadv);
+				att.setAdv(aadv);
+				att.setDadv(adadv);
+				atts.add(att);
 			}
-			line = bf.readLine();
+			attLine = attReader.readLine();
 		}
-		bf.close();
+		//Create cards
+		String cardLine = cardReader.readLine();
+		while(cardLine != null) {
+			if(!cardLine.startsWith("#")) {
+				//#Name - Attribute 1 / Power - Attribute 2 / Power - Attribute 3 / Power
+				String[] parts = cardLine.trim().split("-");
+				//#Name-Attribute 1/Power-Attribute 2/Power-Attribute 3/Power
+				String name = parts[0];
+				Attribute[] atts = new Attribute[3];
+				if(parts.length == 2) {
+					String att1 = parts[1];
+					String[] pts = att1.split("/");
+					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1]));
+					atts[0] = a;
+				}if(parts.length == 3) {
+					String att2 = parts[2];
+					String[] pts = att2.split("/");
+					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1]));
+					atts[1] = a;
+				}if(parts.length == 4) {
+					String att3 = parts[3];
+					String[] pts = att3.split("/");
+					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1]));
+					atts[2] = a;
+				}
+				Card c = new Card(name, "src/images/"+name+".jpg", atts);
+				full.add(c);
+			}
+			cardLine = cardReader.readLine();
+		}
+		attReader.close();
+		cardReader.close();
 	}
 	
 	public void addCard(Card c) {

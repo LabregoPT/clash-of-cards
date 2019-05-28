@@ -1,6 +1,9 @@
 #This is a template file to create the attributes to be used in the game.
 #Every line starting with "#" will be ignored by the program.
 #Use this template when creating new decks
-#NAME - Advantage / Disadvantage
-Fire - 
-Wa
+#NAME / Advantage / Disadvantage
+Fire / Wind / Water
+Wind / Lightning / Fire
+Lightning / Earth / Wind
+Earth / Water / Lightning
+Water / Fire / Earth

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.List;
-
 /**
  * Class to represent each of the attributes in the game
  * @author Jhon Edward Mora - Juan Andres Orozco - Universidad ICESI
@@ -16,9 +14,9 @@ public class Attribute implements Comparable<Attribute> {
 	
 	//Relations
 	/**List of attributes this attribute has an advantage on. Higher or equals than one, but less than 3.*/
-	private List<Attribute> adv;
+	private Attribute adv;
 	/**List of attributes this attribute has a disadvantage on. Higher or equals than one, but less than 3.*/
-	private List<Attribute> dadv;
+	private Attribute dadv;
 	
 	//Methods
 	/**
@@ -30,12 +28,16 @@ public class Attribute implements Comparable<Attribute> {
 		name = n;
 		power = p;
 	}
+	
+	public Attribute(String n) {
+		name = n;
+	}
 
 	/**
 	 * Sets the list of advantages to the one in the parameter.
 	 * @param a the list of advantages
 	 */
-	public void setAdv(List<Attribute> a) {
+	public void setAdv(Attribute a) {
 		adv = a;
 	}
 	
@@ -43,7 +45,7 @@ public class Attribute implements Comparable<Attribute> {
 	 * Sets the list of disadvantages to the one in the parameter.
 	 * @param a the list of disadvantages
 	 */
-	public void setDadv(List<Attribute> a) {
+	public void setDadv(Attribute a) {
 		dadv = a;
 	}
 	
@@ -67,7 +69,7 @@ public class Attribute implements Comparable<Attribute> {
 	 * Returns the list of advantages
 	 * @return the list of advantages
 	 */
-	public List<Attribute> getAdv(){
+	public Attribute getAdv(){
 		return adv;
 	}
 	
@@ -75,7 +77,7 @@ public class Attribute implements Comparable<Attribute> {
 	 * Returns the list of disadvantages
 	 * @return the list of disadvantages
 	 */
-	public List<Attribute> getDadv(){
+	public Attribute getDadv(){
 		return dadv;
 	}
 	
@@ -87,9 +89,9 @@ public class Attribute implements Comparable<Attribute> {
 	 */
 	public int compareTo(Attribute e) {
 		int r = 0;
-		if(adv.contains(e)) {
+		if(adv.getName().equals(e.getName())) {
 			r = (int) (power - (e.getPower()*0.75));
-		}else if(dadv.contains(e)) {
+		}else if(dadv.getName().equals(e.getName())) {
 			r = (int) ((power*0.75) - e.getPower());
 		}else {
 			r = power-e.getPower();
