@@ -81,6 +81,8 @@ public class CardBattleController {
     //The system selected card
     private Card enemy;
     
+    private String battledAttribute;
+    
     //List of attributes in this game.
     private List<Attribute> attributes;
 
@@ -106,7 +108,6 @@ public class CardBattleController {
         	attributes = model.getDeck().getAttributes();
         	setupFight();
         	currentIndex = 0;
-        	displayCurrCard();
     	}catch(IOException e) {
     		Alert err = new Alert(AlertType.ERROR);
     		err.setContentText("There was an error loading the files");
@@ -133,7 +134,19 @@ public class CardBattleController {
 
     @FXML
     void fightButtonPressed(ActionEvent event) {
-    	
+    	if(model.getDeck() == null) {
+    		Alert err = new Alert(AlertType.INFORMATION);
+    		err.setContentText("You can't battle without decks!");
+    		err.showAndWait();
+    	}else if(selected == null) {
+    		Alert err = new Alert(AlertType.INFORMATION);
+    		err.setContentText("Select a card to battle first.");
+    		err.showAndWait();
+    	}else {
+    		model.battle(selected, enemy, battledAttribute, model.getPlayer());
+    		wldLabel.setText("Wins/Losses/Draws: " +model.getWins()+"/"+model.getLosses()+"/"+model.getDraws());
+    		setupFight();
+    	}
     }
 
     @FXML
@@ -149,49 +162,77 @@ public class CardBattleController {
     
     @FXML
     void newGameMenu(ActionEvent event) {
-    	TextInputDialog dg = new TextInputDialog();
-    	dg.setTitle("Input");
-    	dg.setHeaderText("Provide a Nickname");
-    	dg.setContentText("Please provide an user name:");
-    	Optional<String> result = dg.showAndWait();
-    	if(result.isPresent()) {
-    		model.setPlayer(result.get());
+    	if(model.getDeck() != null) {
+    		TextInputDialog dg = new TextInputDialog();
+    		dg.setTitle("Input");
+    		dg.setHeaderText("Provide a Nickname");
+    		dg.setContentText("Please provide an user name:");
+    		Optional<String> result = dg.showAndWait();
+    		if(result.isPresent()) {
+    			model.setPlayer(result.get());
+    			displayCurrCard();
+    		}
+    	}else {
+    		Alert al = new Alert(AlertType.INFORMATION);
+    		al.setTitle("Error");
+    		al.setContentText("You must create a deck first.");
+    		al.showAndWait();
     	}
     }
 
     @FXML
     void nextCard(ActionEvent event) {
-    	if(currentIndex<model.getPlayer().getDeck().getPartial().size()) {
-    		currentIndex++;
+    	if(model.getPlayer() != null) {
+    		if(currentIndex<model.getPlayer().getDeck().getPartial().size()-1) {
+        		currentIndex++;
+        	}else {
+        		currentIndex = 0;
+        	}
+        	displayCurrCard();
     	}else {
-    		currentIndex = 0;
+    		Alert al = new Alert(AlertType.INFORMATION);
+    		al.setTitle("Error");
+    		al.setContentText("You must add a player first.");
+    		al.showAndWait();
     	}
-    	displayCurrCard();
     }
 
     @FXML
     void prevCard(ActionEvent event) {
-    	if(currentIndex<0) {
-    		currentIndex--;
+    	if(model.getPlayer() != null) {
+    		if(currentIndex>0) {
+        		currentIndex--;
+        	}else {
+        		currentIndex = model.getPlayer().getDeck().getPartial().size()-1;
+        	}
+        	displayCurrCard(); 	
     	}else {
-    		currentIndex = model.getPlayer().getDeck().getPartial().size()-1;
+    		Alert al = new Alert(AlertType.INFORMATION);
+    		al.setTitle("Error");
+    		al.setContentText("You must add a player first.");
+    		al.showAndWait();
     	}
-    	displayCurrCard();
     }
     
     void displayCurrCard() {
-    	System.out.println(model.getPlayer() == null);
+    	System.out.println("Hi im supposed to do something");
     	Card toDisplay = model.getPlayer().getDeck().getPartial().get(currentIndex);
-    	battleCardName.setText(toDisplay.getName());
+    	deckCardName.setText(toDisplay.getName());
     	Attribute a1 = toDisplay.getAttributes()[0];
     	Attribute a2 = toDisplay.getAttributes()[1];
     	Attribute a3 = toDisplay.getAttributes()[2];
-    	battleAtt1Label.setText(a1.getName() + " : " + a1.getPower());
+    	att1Label.setText(a1.getName() + " : " + a1.getPower());
     	if(a2 != null) {
-    		battleAtt2Label.setText(a2.getName() + " : " + a2.getPower());
+    		att2Label.setVisible(true);
+    		att2Label.setText(a2.getName() + " : " + a2.getPower());
+    	}else {
+    		att2Label.setVisible(false);
     	}
     	if(a3 != null) {
-    		battleAtt3Label.setText(a3.getName() + " : " + a3.getPower());
+    		att3Label.setVisible(true);
+    		att3Label.setText(a3.getName() + " : " + a3.getPower());
+    	}else {
+    		att3Label.setVisible(false);
     	}
     }
 
@@ -213,18 +254,25 @@ public class CardBattleController {
     	Attribute a1 = selected.getAttributes()[0];
     	Attribute a2 = selected.getAttributes()[1];
     	Attribute a3 = selected.getAttributes()[2];
-    	att1Label.setText(a1.getName() + " : " + a1.getPower());
+    	battleAtt1Label.setText(a1.getName() + " : " + a1.getPower());
     	if(a2 != null) {
-    		att2Label.setText(a2.getName() + " : " + a2.getPower());
+    		battleAtt2Label.setVisible(true);
+    		battleAtt2Label.setText(a2.getName() + " : " + a2.getPower());
+    	}else {
+    		battleAtt2Label.setVisible(false);
     	}
     	if(a3 != null) {
-    		att3Label.setText(a3.getName() + " : " + a3.getPower());
+    		battleAtt3Label.setVisible(true);
+    		battleAtt3Label.setText(a3.getName() + " : " + a3.getPower());
+    	}else {
+    		battleAtt3Label.setVisible(false);
     	}
     }
     
     void setupFight() {
     	Random rnd = new Random();
     	String att = attributes.get(rnd.nextInt(attributes.size())).getName();
+    	battledAttribute = att;
     	battleAttributeLabel.setText("Battle with Attribute: " + att);
     	enemy = model.getDeck().getRandomCard();
     	displayEnemyStats();

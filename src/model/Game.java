@@ -15,13 +15,14 @@ public class Game {
 	
 	public Game() {
 		player = null;
-		collection = new Deck(Deck.TYPE_FULL);
+		collection = null;
 		wins = 0;
 		losses = 0;
 		draws = 0;
 	}
 	
 	public void generateCards(String attsPath, String cardsPath) throws IOException{
+		collection = new Deck(Deck.TYPE_FULL);
 		collection.loadDeck(cardsPath, attsPath);
 	}
 	
@@ -33,10 +34,7 @@ public class Game {
 		collection.deleteCard(given);
 	}
 	
-	public void battle(Player p, int i) {
-		Card player = p.selectCard(i);
-		Card system = collection.getRandomCard();
-		String toFight = collection.getRandomAttribute();
+	public void battle(Card player, Card system, String toFight, Player p) {
 		int result = player.fight(system, toFight);
 		if(result < 1) {
 			collection.addCard(player);
