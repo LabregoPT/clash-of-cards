@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -95,15 +96,12 @@ public class CardBattleController {
     @FXML
     void loadDeck() {
     	try {
-    		/*Stage s = new Stage();
+    		Stage s = new Stage();
         	FileChooser fc = new FileChooser();
         	fc.setTitle("Select the attributes file");
         	String attPath = fc.showOpenDialog(s).getPath();
         	fc.setTitle("Select the cards file");
-        	String cards = fc.showOpenDialog(s).getPath();*/
-        	//Comment late
-        	String attPath = "data/Attributes.txt";
-        	String cards = "data/deck.txt";
+        	String cards = fc.showOpenDialog(s).getPath();
         	model.generateCards(attPath, cards);
         	attributes = model.getDeck().getAttributes();
         	setupFight();
@@ -215,9 +213,10 @@ public class CardBattleController {
     }
     
     void displayCurrCard() {
-    	System.out.println("Hi im supposed to do something");
     	Card toDisplay = model.getPlayer().getDeck().getPartial().get(currentIndex);
     	deckCardName.setText(toDisplay.getName());
+    	Image im = new Image(toDisplay.image);
+    	deckCardImage.setImage(im);
     	Attribute a1 = toDisplay.getAttributes()[0];
     	Attribute a2 = toDisplay.getAttributes()[1];
     	Attribute a3 = toDisplay.getAttributes()[2];
@@ -251,6 +250,8 @@ public class CardBattleController {
     void selectCard(ActionEvent event) {
     	selected = model.getPlayer().getDeck().getPartial().get(currentIndex);
     	battleCardName.setText(selected.getName());
+    	Image im = new Image(selected.image);
+    	deckCardImage2.setImage(im);
     	Attribute a1 = selected.getAttributes()[0];
     	Attribute a2 = selected.getAttributes()[1];
     	Attribute a3 = selected.getAttributes()[2];
@@ -280,6 +281,8 @@ public class CardBattleController {
     
     void displayEnemyStats() {
     	enemyCardName.setText(enemy.getName());
+    	Image im = new Image(enemy.image);
+    	battleCardImage.setImage(im);
     	Attribute a1 = enemy.getAttributes()[0];
     	Attribute a2 = enemy.getAttributes()[1];
     	Attribute a3 = enemy.getAttributes()[2];

@@ -66,6 +66,10 @@ public class LinkedList{
 		public Element clone() {
 			return new Element(this);
 		}
+		
+		public boolean equals(Element e) {
+			return super.equals(e);
+		}
 	}
 
 	//Relations
@@ -247,7 +251,7 @@ public class LinkedList{
 	public void delete(Card c) {
 		Element nc = new Element(c);
 		Element curr = first;
-		while(nc != curr) {
+		while(!nc.equals(curr)) {
 			nc = nc.getNext();
 		}
 		if(nc == first) {
