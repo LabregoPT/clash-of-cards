@@ -100,7 +100,8 @@ public class Deck implements Serializable{
 					Attribute a = new Attribute(pts[0], Integer.parseInt(pts[1].trim()));
 					atts[2] = a;
 				}
-				Card c = new Card(name, "src/images/"+name+".jpg", atts);
+				Card c = new Card(name, "images/"+name.trim()+".jpg", atts);
+				System.out.println(c.image);
 				full.add(c);
 			}
 			cardLine = cardReader.readLine();

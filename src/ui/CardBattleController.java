@@ -20,79 +20,142 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * Class to control each of the different events happening in the GUI.
+ * @author Jhon Edward Mora - Andres Orozco Nuñez
+ *
+ */
 public class CardBattleController {
     
+	/**
+     * This is a relation between the model and the interface
+     */
 	private Game model;
-	
+	/**
+	 * This label display the  name of the player's deck card
+	 */
 	@FXML
     private Label deckCardName;
-
+	/**
+	 * This is used to show image of the player's deck card
+	 */
     @FXML
     private ImageView deckCardImage;
-
+    /**
+	 * This show the first attribute from player's deck card
+	 */
     @FXML
     private Label att1Label;
-
+    /**
+	 * This show the second attribute from player's deck card
+	 */
     @FXML
     private Label att2Label;
-
+    /**
+	 * This show the last attribute from player's deck card
+	 */
     @FXML
     private Label att3Label;
-
+    /**
+	 * This show the enemy card's name
+	 */
     @FXML
     private Label enemyCardName;
-
+    /**
+	 * This show the enemy's card picture
+	 */
     @FXML
     private ImageView deckCardImage2;
-
+    /**
+	 * This show the first attribute from the enemy's card
+	 */
     @FXML
     private Label enemyAtt1Label;
-
+    /**
+	 * This show the second attribute from the enemy's card
+	 */
     @FXML
     private Label enemyAtt2Label;
-
+    /**
+	 * This show the last attribute from the enemy's card
+	 */
     @FXML
     private Label enemyAtt3Label;
-
+    /**
+	 * This show the selected card name
+	 */
     @FXML
     private Label battleCardName;
-
+    /**
+	 * This shows the selected card picture
+	 */
     @FXML
     private ImageView battleCardImage;
-
+    /**
+	 * Represent the first attribute from the selected card
+	 */
     @FXML
     private Label battleAtt1Label;
-
+    /**
+	 * Represent the second attribute from the selected card
+	 */
     @FXML
     private Label battleAtt2Label;
-
+    /**
+	 * Represent the last attribute from the selected card
+	 */
     @FXML
     private Label battleAtt3Label;
 
+    /**
+	 * Label to represent the attribute that will rule the battle.
+	 */
     @FXML
     private Label battleAttributeLabel;
     
+    /**
+     * DIsplays the Wins / Losses / Draws
+     */
     @FXML
     private Label wldLabel;
     
-    
+    /**
+     * Index of the current card of the player's deck
+     */
     private int currentIndex;
-    //The current selected card by the player.
+    
+    /**
+     * The current selected card by the player.
+     */
     private Card selected;
-    //The system selected card
+
+    /**
+     * The card selected by the enemy
+     */
     private Card enemy;
     
+    /**
+     * The attribute that will determine the battle winner
+     */
     private String battledAttribute;
     
-    //List of attributes in this game.
+    /**
+     * List of attributes in this game.
+     */
     private List<Attribute> attributes;
 
+    /**
+     * This method initialize the necesary stuff for the game to work
+     */
     @FXML
     void initialize() {
     	model = new Game();
     	wldLabel.setText("Wins/Losses/Draws: " +model.getWins()+"/"+model.getLosses()+"/"+model.getDraws());
     }
     
+    /**
+     * This method loads the full deck 
+     */
     @FXML
     void loadDeck() {
     	try {
@@ -113,6 +176,10 @@ public class CardBattleController {
     	}
     }
     
+    /**
+     * This method show the about stuff
+     * @param event 
+     */
     @FXML
     void aboutPressed(ActionEvent event) {
     	VBox vb = new VBox();
@@ -125,11 +192,19 @@ public class CardBattleController {
     	st.showAndWait();
     }
 
+    /**
+     * This method exit the programme
+     * @param event
+     */
     @FXML
     void exit(ActionEvent event) {
-    	
+    	System.exit(1);
     }
 
+    /**
+	 * This method set the battle it is linked to the battle method in the game    
+	 * @param event
+	 */
     @FXML
     void fightButtonPressed(ActionEvent event) {
     	if(model.getDeck() == null) {
@@ -147,6 +222,10 @@ public class CardBattleController {
     	}
     }
 
+    /**
+     * This load a previous game
+     * @param event
+     */
     @FXML
     void loadGameMenu(ActionEvent event) {
     	try {
@@ -157,7 +236,11 @@ public class CardBattleController {
     		err.showAndWait();
     	}
     }
-    
+   
+    /**
+     * This create a new player 
+     * @param event
+     */
     @FXML
     void newGameMenu(ActionEvent event) {
     	if(model.getDeck() != null) {
@@ -178,6 +261,10 @@ public class CardBattleController {
     	}
     }
 
+    /**
+     * This is used to get to the next card in the data structure
+     * @param event
+     */
     @FXML
     void nextCard(ActionEvent event) {
     	if(model.getPlayer() != null) {
@@ -195,6 +282,10 @@ public class CardBattleController {
     	}
     }
 
+    /**
+     * This is used to get the previous card
+     * @param event
+     */
     @FXML
     void prevCard(ActionEvent event) {
     	if(model.getPlayer() != null) {
@@ -211,7 +302,9 @@ public class CardBattleController {
     		al.showAndWait();
     	}
     }
-    
+    /**
+     * This method displays the currently selectioned card 
+     */
     void displayCurrCard() {
     	Card toDisplay = model.getPlayer().getDeck().getPartial().get(currentIndex);
     	deckCardName.setText(toDisplay.getName());
@@ -235,6 +328,10 @@ public class CardBattleController {
     	}
     }
 
+    /**
+     * To save the game
+     * @param event
+     */
     @FXML
     void saveGameMenu(ActionEvent event) {
     	try{
@@ -246,6 +343,10 @@ public class CardBattleController {
     	}
     }
 
+    /**
+     * This method select the current card
+     * @param event
+     */
     @FXML
     void selectCard(ActionEvent event) {
     	selected = model.getPlayer().getDeck().getPartial().get(currentIndex);
@@ -270,6 +371,9 @@ public class CardBattleController {
     	}
     }
     
+    /**
+     * This method prepare everything for the battle
+     */
     void setupFight() {
     	Random rnd = new Random();
     	String att = attributes.get(rnd.nextInt(attributes.size())).getName();
@@ -279,6 +383,9 @@ public class CardBattleController {
     	displayEnemyStats();
     }
     
+    /**
+     * This method display the enemy statistics such a power and other stuff
+     */
     void displayEnemyStats() {
     	enemyCardName.setText(enemy.getName());
     	Image im = new Image(enemy.image);
